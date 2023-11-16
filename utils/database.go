@@ -20,15 +20,27 @@ var (
 type TransactionsKey struct{}
 
 func InitDB() {
-	dsn := "root:wjb20031205@tcp(localhost:3306)/douyin_projoect?charset=utf8&parseTime=True&loc=Local"
-	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{
-		DisableForeignKeyConstraintWhenMigrating: true,
-		SkipDefaultTransaction:                   true,
-	})
-	if err != nil {
-		fmt.Println("连接数据库出现错误")
-		return
+	dsn := "root:123456@tcp(localhost:3306)/douyin_projoect?charset=utf8&parseTime=True&loc=Local"
+	var db *gorm.DB
+	var err error
+	for i := 0; i < 10; i++ {
+		db, err = gorm.Open(mysql.Open(dsn), &gorm.Config{
+			DisableForeignKeyConstraintWhenMigrating: true,
+			SkipDefaultTransaction:                   true,
+		})
+		if err != nil {
+			fmt.Println("连接数据库出现错误", err)
+			time.Sleep(10 * time.Second)
+			continue
+		}
+		if db != nil {
+			break
+		}
 	}
+	if db == nil {
+		panic("连接数据库失败")
+	}
+
 	s, err := db.DB()
 	s.SetMaxOpenConns(10)
 	s.SetMaxIdleConns(5)
