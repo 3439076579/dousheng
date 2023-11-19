@@ -46,7 +46,7 @@ func InitDB() {
 	s.SetMaxIdleConns(5)
 	s.SetConnMaxLifetime(time.Hour)
 	log.Println("MySQL Connect Successed")
-	// 进行了三个表的自动迁移
+	// 进行了四个表的自动迁移
 	res := db.AutoMigrate(&user.User{}, &user.UserLogin{}, &video.Video{}, &interactor.Comment{})
 	if res != nil {
 		panic(res)
