@@ -20,7 +20,7 @@ var (
 type TransactionsKey struct{}
 
 func InitDB() {
-	dsn := "root:123456@tcp(localhost:3306)/douyin_projoect?charset=utf8&parseTime=True&loc=Local"
+	dsn := "root:123456@tcp(mysql:3306)/douyin_projoect?charset=utf8&parseTime=True&loc=Local"
 	var db *gorm.DB
 	var err error
 	for i := 0; i < 10; i++ {
